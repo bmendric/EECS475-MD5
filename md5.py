@@ -17,7 +17,7 @@ from math import floor, sin
 import sys
 
 class MD5:
-	def __init__(self, message):
+	def __init__(self, message, hex_=False):
 		## Constants
 		self.bit32 = 2**32
 		self.bit64 = 2**64
@@ -39,6 +39,7 @@ class MD5:
 			self.constant[i] = int(floor(self.bit32 * abs(sin(i + 1))))
 
 		## Hashing given string
+		self.hex_ = hex_
 		self.msg = message
 		if not self.msg:
 			self.msg = ""
@@ -124,7 +125,10 @@ class MD5:
 		F, G, H, I = self._F, self._G, self._H, self._I
 
 		# message to bitstring, padded, and split into 512-bit chunks
-		self.parsedMsg = self._split(self._pad(self._toBinString(self.msg)), 512)
+		if self.hex_:
+			self.parsedMsg = self._split(self._pad(self._hexToBinString(self.msg)), 512)
+		else:
+			self.parsedMsg = self._split(self._pad(self._toBinString(self.msg)), 512)
 
 		for chunk in self.parsedMsg:
 			# Breaking the chunk into 16 32-bit words
@@ -175,6 +179,14 @@ class MD5:
 
 		# assigning results to class variables for (hex)digest use
 		self._resA, self._resB, self._resC, self._resD = A, B, C, D
+
+	def _hexToBinString(self, hexString):
+		result = str(bin(int(hexString, 16))[2:])
+
+		while (len(result) % 8 != 0):
+			result = '0' + result
+
+		return result
 
 	def _pad(self, bitString):
 		"""Pads the message according to MD5.
@@ -258,18 +270,21 @@ class MD5:
 		return (bitString << shift) | (bitString >> (32 - shift))
 
 ## Public module interface
-def new(args=None):
+def new(string, hex_=False):
 	"""Create new instance of MD5 class."""
-	return MD5(args)
+	return MD5(string, hex_)
 
-def md5(args=None):
+def md5(string, hex_=False):
 	"""Create new instance of MD5 class."""
-	return MD5(args)
+	return MD5(string, hex_)
 
 def main():
 	"""Main function for testing purposes."""
 	# obj = md5("12345678901234567890123456789012345678901234567890123456789012345678901234567890")
-	obj = md5("abc")
+	# obj = md5("abc")
+
+	obj = md5("48656c6c6f", True)
+	# obj = md5("Hello", False)
 
 	# string = ""
 	# for i in range(1000):
