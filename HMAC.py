@@ -9,8 +9,8 @@ OPAD = int("5c" * 64, 16)
 IPAD = int("36" * 64, 16)
 KEY_PRIME = ""
 
-KEY = "Hello"
-MESSAGE = "World"
+KEY = "EECS_475_Mallory"
+MESSAGE = "F"
 
 # If key is longer than block size, set key = hash(original key)
 if len(KEY) > 64:
@@ -33,9 +33,8 @@ if len(o_key_pad) < BLOCK_SIZE_BITS:
 # Performing hashing
 inner_hash_input = (i_key_pad).decode("hex") + MESSAGE
 inner_hash = md5(inner_hash_input).hexdigest()
-outer_hash_input = (o_key_pad + inner_hash).decode("hex")
+outer_hash_input = (o_key_pad + inner_hash)#.decode("hex")
 outer_hash = md5(outer_hash_input).hexdigest()
 
 #Resulting HMAC
 print outer_hash
-

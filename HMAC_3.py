@@ -1,6 +1,6 @@
 #An implementation of HMAC, using MD5 as the hashing algorithm.
 
-from b_md5 import *
+from md5 import *
 import binascii
 
 BLOCK_SIZE = 64 #MD5 input block size
@@ -9,8 +9,8 @@ OPAD = int("5c" * 64, 16) #Constants chosen in 1996 paper on HMAC construction
 IPAD = int("36" * 64, 16) 
 KEY_PRIME = ""
 
-KEY = b"Hello"
-MESSAGE = b"World" 
+KEY = b"EECS_475_Mallory"
+MESSAGE = b"F"
 
 # If key is longer than block size, set key = hash(original key)
 if len(KEY) > 64:

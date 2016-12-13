@@ -35,23 +35,23 @@ def length_extension(input_length, input_hash, appended_string):
 	return new_hash.hexdigest()
 	
 # Adversary doesn't know this
-secret = "EECS 475 Grade:"
+secret = "EECS_475_"
 
-#Adversarys real grade
-grade = "D"
+# Adversarys real user_input
+user_input = "MalloryF"
 
 # What the adversary wants to append to the original hash
 adversary_extension = "A"
-original_hash = md5(secret + grade).hexdigest()
+original_hash = md5(secret + user_input).hexdigest()
 
-legit_hash = md5(secret + grade + pad_message(len(secret + grade)) + adversary_extension).hexdigest()
+legit_hash = md5(secret + user_input + pad_message(len(secret + user_input)) + adversary_extension).hexdigest()
 print "Legitimate Message Hash:" + legit_hash
 
 # Note how the length extension function is never actually given the secret
 # but it still manages to produce the correct hash
 secret_length = len(secret)
-print "Adversary Hash: " + length_extension(secret_length + len(grade), original_hash, adversary_extension)
+print "Adversary Hash: " + length_extension(secret_length + len(user_input), original_hash, adversary_extension)
 
-string_created = secret + grade + pad_message(len(secret)) + adversary_extension
+string_created = secret + user_input + pad_message(len(secret)) + adversary_extension
 print "String created (ASCII): " + string_created
 print "String created (Hex): " + string_created.encode("hex")
